@@ -1,5 +1,13 @@
-export const Logger = (msg:any) => {
+import { ErrorTypes } from "../interface/LoggerInterface"
+
+export const Logger = (msg:any, type: ErrorTypes = ErrorTypes.Error) => {
   if (process.env.APP_DEBUG) {
-    console.log(msg)
+    if (type === ErrorTypes.Error) {
+      console.error(msg);
+    } else if (type === ErrorTypes.Warning) {
+      console.warn(msg);
+    } else if (type === ErrorTypes.Info) {
+      console.info(msg);
+    }
   }
 }

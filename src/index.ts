@@ -4,7 +4,7 @@ const cheerio = require('cheerio');
 
 // interfaces
 import { FaculteInterface } from './interface/FacultsInterface';
-import { MajorsInterface } from './interface/MajorsInterface';
+import { MajorsInterface, FacultMajorsInterface } from './interface/MajorsInterface';
 
 // services
 import { Logger } from './services/Logger';
@@ -15,6 +15,8 @@ require('dotenv').config({path: '../.env'});
 // const
 const tmp = 'https://www.portalvs.sk/sk/vysoka-skola/zilinska-univerzita-v-ziline';
 
+console.info('Starting parser...');
+console.info('Get facults from university...');
 needle.get(tmp, function (err:any, res:any) {
   if (err) {
     Logger(err);
@@ -33,8 +35,7 @@ needle.get(tmp, function (err:any, res:any) {
     }
   );
 
-  facults.forEach((item:FaculteInterface) => {
-    getAllFacults(item);
-  });
-  // console.log(facults);
+  // facults.forEach((item:FaculteInterface) => {
+    getAllFacults(facults[0]);
+  // });
 });

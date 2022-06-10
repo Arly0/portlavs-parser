@@ -4,8 +4,10 @@ const cheerio = require('cheerio');
 
 // services
 import { Logger } from './Logger';
+import { getMajorInfo } from './Majors';
 
 import { FaculteInterface } from './../interface/FacultsInterface';
+import { FacultMajorsInterface } from '../interface/MajorsInterface';
 
 export const getAllFacults = (facult:FaculteInterface) => {
   let majors_BC_SK:any  = [],
@@ -83,15 +85,20 @@ export const getAllFacults = (facult:FaculteInterface) => {
       )
     }
 
-    const FacultInfo = {
+    const FacultInfo:FacultMajorsInterface = {
       'title': titleFacult,
       'BC_SK': majors_BC_SK,
       'ING_SK': majors_ING_SK,
       'BC_EN': majors_BC_EN,
       'ING_EN': majors_ING_SK,
-    }
+    };
 
-    console.log(FacultInfo);
+    // save this to DB
+    console.log(titleFacult);
     
+    // majors_BC_SK.forEach((item:FaculteInterface) => {
+      getMajorInfo(majors_BC_SK[0].link);
+    // });
+
   });
 }
