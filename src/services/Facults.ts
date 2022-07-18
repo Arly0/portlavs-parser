@@ -97,6 +97,7 @@ export const getAllFacults = (facult:FaculteInterface) => {
     console.log(titleFacult);
     
     // majors_BC_SK.forEach((item:FaculteInterface) => {
+      // getMajorInfo(item.link);
       getMajorInfo(majors_BC_SK[0].link);
     // });
 

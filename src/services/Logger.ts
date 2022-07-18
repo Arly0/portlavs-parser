@@ -6,7 +6,7 @@ export const Logger = (msg:any, type: ErrorTypes = ErrorTypes.Error) => {
       console.error(msg);
     } else if (type === ErrorTypes.Warning) {
       console.warn(msg);
-    } else if (type === ErrorTypes.Info) {
+    } else {
       console.info(msg);
     }
   }

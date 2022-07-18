@@ -2,6 +2,8 @@
 const needle  = require('needle');
 const cheerio = require('cheerio');
 
+require('dotenv').config({path: __dirname+'/.env'});
+
 // interfaces
 import { FaculteInterface } from './interface/FacultsInterface';
 import { MajorsInterface, FacultMajorsInterface } from './interface/MajorsInterface';
@@ -10,9 +12,10 @@ import { MajorsInterface, FacultMajorsInterface } from './interface/MajorsInterf
 import { Logger } from './services/Logger';
 import { getAllFacults } from './services/Facults';
 
-require('dotenv').config({path: '../.env'});
-
 // const
+/**
+ * TODO: all link parse autmaticly
+ */
 const tmp = 'https://www.portalvs.sk/sk/vysoka-skola/zilinska-univerzita-v-ziline';
 
 console.info('Starting parser...');
@@ -36,6 +39,7 @@ needle.get(tmp, function (err:any, res:any) {
   );
 
   // facults.forEach((item:FaculteInterface) => {
+    // getAllFacults(item);
     getAllFacults(facults[0]);
   // });
 });
