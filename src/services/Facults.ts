@@ -17,8 +17,7 @@ export const getAllFacults = (facult:FaculteInterface) => {
 
   needle.get(facult.link, function (err:any, res:any) {
     if (err) {
-      Logger(err);
-      throw err;
+      // Logger(err);
     }
 
     let $ = cheerio.load(res.body);

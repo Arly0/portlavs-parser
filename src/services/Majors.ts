@@ -11,7 +11,7 @@ import { MajorsInterface, defaultMajor } from '../interface/MajorsInterface';
 export const getMajorInfo = (link: string) => {
   needle.get(link, function (err:any, res:any) {
     if (err) {
-      Logger(err);
+      // Logger(err);
       throw err;
     }
 

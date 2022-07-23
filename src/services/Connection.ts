@@ -23,10 +23,10 @@ export class Database {
     
     this.connection.connect(function(err:any) {
       if (err) {
-        Logger('Cannot connect to DB!', ErrorTypes.Error);
-        Logger(err.stack);
+        // Logger('Cannot connect to DB!', ErrorTypes.Error);
+        // Logger(err.stack);
       }
-      Logger('Success connection to database!', ErrorTypes.Info);
+      // Logger('Success connection to database!', ErrorTypes.Info);
     })
   }
 
@@ -42,7 +42,7 @@ export class Database {
     let sql = `SELECT * FROM universities WHERE name = '${univ}' OR id = ${univ};`;
     return this.connection.query(sql, function(err:any, result:any) {
       if (err) {
-        Logger(err);
+        // Logger(err);
         return false;
       }
       return callback(result[0].id);
@@ -61,11 +61,11 @@ export class Database {
 
     this.connection.query(sql, (err:any, result:any) => {
       if (err) {
-        Logger(err);
+        // Logger(err);
         return false;
       }
 
-      Logger(`Write new university to DB! [${university.title}] -> ${result.insertId}`, ErrorTypes.Info);
+      // Logger(`Write new university to DB! [${university.title}] -> ${result.insertId}`, ErrorTypes.Info);
       
     });
     return true;

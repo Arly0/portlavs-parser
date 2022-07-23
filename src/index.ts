@@ -2,11 +2,12 @@
 const needle  = require('needle');
 const cheerio = require('cheerio');
 
-require('dotenv').config({path: __dirname+'/.env'});
+require('dotenv').config({path: '../.env'});
 
 // interfaces
 import { FaculteInterface } from './interface/FacultsInterface';
 import { MajorsInterface, FacultMajorsInterface } from './interface/MajorsInterface';
+import { Database } from './services/Connection';
 
 // services
 import { Logger } from './services/Logger';
@@ -20,10 +21,12 @@ const tmp = 'https://www.portalvs.sk/sk/vysoka-skola/zilinska-univerzita-v-zilin
 
 console.info('Starting parser...');
 console.info('Get facults from university...');
+// init Logger
+const logger = new Logger(true);
+
 needle.get(tmp, function (err:any, res:any) {
   if (err) {
-    Logger(err);
-    throw err;
+    logger.writeLog(err);
   }
 
   let $ = cheerio.load(res.body);
@@ -37,7 +40,8 @@ needle.get(tmp, function (err:any, res:any) {
       };
     }
   );
-
+    console.log(facults);
+    return;
   // facults.forEach((item:FaculteInterface) => {
     // getAllFacults(item);
     getAllFacults(facults[0]);
