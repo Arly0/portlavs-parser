@@ -44,14 +44,13 @@ needle.get(tmp, function (err:any, res:any) {
 
   // init Excel instance
   const xls = new Excel(true, 'Zilinska univerzita v ziline');
-  xls.writeFacults(facults);
-  xls.saveFile('Zilinska univerzita v ziline.xlsx');
-
 
   console.log(facults);
   return;
-  // facults.forEach((item:FaculteInterface) => {
-    // getAllFacults(item);
-    getAllFacults(facults[0]);
-  // });
+  facults.forEach((item:FaculteInterface, index:number) => {
+    getAllFacults(item);
+    xls.writeFacult(item, index+1);
+  });
+
+  xls.saveFile('Zilinska univerzita v ziline.xlsx');
 });

@@ -63,16 +63,23 @@ export class Excel
     return this._worksheet;
   }
 
-  writeFacults (facults:FaculteInterface[])
+  /**
+   * Write facult into Excel
+   * @param facult FaculteInterface
+   * @param index int
+   */
+  writeFacult (facult:FaculteInterface, index:number)
   {
-    let rowCounter = 2;
-    facults.forEach((item:FaculteInterface) => {
-      this._worksheet.getCell(`A${rowCounter++}`).value = {
-        text: item.text,
-        hyperlink: item.link,
-        tooltip: item.link
-      };
-    });
+    this._worksheet.getCell(`A${index}`).value = {
+      text: facult.text,
+      hyperlink: facult.link,
+      tooltip: facult.link
+    };
+    // some styles
+    this._worksheet.getCell(`A${index}`).font = {
+      underline: true,
+      color: {argb: 'FF0000EE'}
+    }
   }
 
   saveFile (fileName = 'SlovakStudy.xlsx')
