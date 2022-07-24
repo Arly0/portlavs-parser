@@ -11,6 +11,7 @@ import { Database } from './services/Connection';
 
 // services
 import { Logger } from './services/Logger';
+import { Excel } from './services/Excel';
 import { getAllFacults } from './services/Facults';
 
 // const
@@ -40,8 +41,15 @@ needle.get(tmp, function (err:any, res:any) {
       };
     }
   );
-    console.log(facults);
-    return;
+
+  // init Excel instance
+  const xls = new Excel(true, 'Zilinska univerzita v ziline');
+  xls.writeFacults(facults);
+  xls.saveFile('Zilinska univerzita v ziline.xlsx');
+
+
+  console.log(facults);
+  return;
   // facults.forEach((item:FaculteInterface) => {
     // getAllFacults(item);
     getAllFacults(facults[0]);

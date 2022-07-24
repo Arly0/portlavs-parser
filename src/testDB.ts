@@ -4,7 +4,7 @@ import {Excel} from './services/Excel';
 
 require('dotenv').config({path: '../.env'});
 
-const xls = new Excel();
+const xls = new Excel(true, 'Test');
 xls.createNewPage('Hello');
 xls.setDefaultHeader();
 xls.saveFile('testik.xlsx');

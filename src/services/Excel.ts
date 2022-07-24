@@ -6,13 +6,14 @@ export class Excel
   _workbook:any;
   _worksheet:any;
 
-  constructor(setDefaultHeader = true)
+  constructor(setDefaultHeader = true, firstPageName = 'First page')
   {
     // instance
     this._workbook = new ExcelJS.Workbook();
-    // if (setDefaultHeader) {
-
-    // }
+    this.createNewPage(firstPageName);
+    if (setDefaultHeader) {
+      this.setDefaultHeader();
+    }
   }
 
   /**
@@ -64,9 +65,13 @@ export class Excel
 
   writeFacults (facults:FaculteInterface[])
   {
-    let rowCounter = 1;
+    let rowCounter = 2;
     facults.forEach((item:FaculteInterface) => {
-      this._worksheet.getCell(`A${rowCounter++}`).value(`${item.text}`);
+      this._worksheet.getCell(`A${rowCounter++}`).value = {
+        text: item.text,
+        hyperlink: item.link,
+        tooltip: item.link
+      };
     });
   }
 
