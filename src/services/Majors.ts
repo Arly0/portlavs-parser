@@ -44,6 +44,7 @@ export const getMajorInfo = (link: string, callback: (data:MajorsInterface) => v
         // find other price
         endIndex = tmp.search('<br>');
         majorInfo.paymentOther = tmp.substring(0, endIndex).trim();
+        majorInfo.paymentOther = majorInfo.paymentOther.replace(new RegExp('<[^>]*>', 'g'), '');
       }
       substring = 'elektronická prihláška:';
       startIndex = paymentText.search(substring);

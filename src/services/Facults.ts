@@ -97,10 +97,6 @@ export const getAllFacults =
       };
 
       return callback(FacultInfo);
-      // majors_BC_SK.forEach((item:FaculteInterface) => {
-      // getMajorInfo(item.link);
-      // getMajorInfo(majors_BC_SK[0].link);
-      // });
 
     });
   }

@@ -46,15 +46,15 @@ needle.get(tmp, function (err: any, res: any) {
   // init Excel instance
   const xls = new Excel(true, 'Zilinska univerzita v ziline');
 
+  let majorCounter = 0;
   facults.forEach((item: FaculteInterface, index: number) => {
-    xls.writeFacult(item, index+1);
-
+    xls.writeFacult(item, index+2+majorCounter);
     // parse all majors from Facults
     getAllFacults(item, (FacultInfo: FacultMajorsInterface) => {
       // index + secondIndex for merge cells
-      let secondIndex = 0;
       if (FacultInfo.BC_SK) {
-        FacultInfo.BC_SK.forEach((majorItem: FaculteInterface, majorIndex: number) => {
+        majorCounter = FacultInfo?.BC_SK.length;
+        FacultInfo.BC_SK.forEach((majorItem: FaculteInterface, subIndex: number) => {
           /**
            * TODO: 
            * 1) Get data from links
@@ -64,14 +64,16 @@ needle.get(tmp, function (err: any, res: any) {
 
           // parse all info from page of Major
           getMajorInfo(majorItem.link, (data:MajorsInterface) => {
-            xls.writeMajor(majorItem, data, (index+1)+majorIndex);
+            xls.writeMajor(majorItem, data, (index+2)+subIndex);
           });
         });
       }
 
+      setTimeout(() => {
+        xls.saveFile('Zilinska univerzita v ziline.xlsx');
+      }, 10000);
       // this is last
       // xls.writeFacult(item, index + 1);
-      xls.saveFile('Zilinska univerzita v ziline.xlsx');
     });
     return;
   });
