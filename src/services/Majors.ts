@@ -8,10 +8,10 @@ import { Logger } from './Logger';
 // interfaces
 import { MajorsInterface, defaultMajor } from '../interface/MajorsInterface';
 
-export const getMajorInfo = (link: string) => {
+export const getMajorInfo = (link: string, callback: (data:MajorsInterface) => void) => {
+  // @FIX: callback problem
   needle.get(link, function (err:any, res:any) {
     if (err) {
-      // Logger(err);
       throw err;
     }
 
@@ -36,7 +36,6 @@ export const getMajorInfo = (link: string) => {
           startIndex = paymentText.search(substring),
           endIndex   = 0;
       if (startIndex !== -1) {
-        console.log(startIndex);
         let tmp = paymentText.substring(startIndex + substring.length);
         // find standart price
         endIndex = tmp.search('<br>');
@@ -55,7 +54,7 @@ export const getMajorInfo = (link: string) => {
       }
     }
 
-    console.log(majorInfo);
+    callback(majorInfo);
   });
 
   // save value to currect key

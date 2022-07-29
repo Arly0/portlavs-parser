@@ -1,8 +1,8 @@
 // modules
-const needle  = require('needle');
+const needle = require('needle');
 const cheerio = require('cheerio');
 
-require('dotenv').config({path: '../.env'});
+require('dotenv').config({ path: '../.env' });
 
 // interfaces
 import { FaculteInterface } from './interface/FacultsInterface';
@@ -13,6 +13,7 @@ import { Database } from './services/Connection';
 import { Logger } from './services/Logger';
 import { Excel } from './services/Excel';
 import { getAllFacults } from './services/Facults';
+import { getMajorInfo } from './services/Majors';
 
 // const
 /**
@@ -25,7 +26,7 @@ console.info('Get facults from university...');
 // init Logger
 const logger = new Logger(true);
 
-needle.get(tmp, function (err:any, res:any) {
+needle.get(tmp, function (err: any, res: any) {
   if (err) {
     logger.writeLog(err);
   }
@@ -34,7 +35,7 @@ needle.get(tmp, function (err:any, res:any) {
   const title = $('h1').text();
 
   const facults = $('ul.list-university-faculties li').toArray().map(
-    (element:any) => {
+    (element: any) => {
       return {
         'text': $('a', element).attr('title'),
         'link': process.env.APP_BASE_URI + $('a', element).attr('href'),
@@ -45,12 +46,33 @@ needle.get(tmp, function (err:any, res:any) {
   // init Excel instance
   const xls = new Excel(true, 'Zilinska univerzita v ziline');
 
-  console.log(facults);
-  return;
-  facults.forEach((item:FaculteInterface, index:number) => {
-    getAllFacults(item);
+  facults.forEach((item: FaculteInterface, index: number) => {
     xls.writeFacult(item, index+1);
-  });
 
-  xls.saveFile('Zilinska univerzita v ziline.xlsx');
+    // parse all majors from Facults
+    getAllFacults(item, (FacultInfo: FacultMajorsInterface) => {
+      // index + secondIndex for merge cells
+      let secondIndex = 0;
+      if (FacultInfo.BC_SK) {
+        FacultInfo.BC_SK.forEach((majorItem: FaculteInterface, majorIndex: number) => {
+          /**
+           * TODO: 
+           * 1) Get data from links
+           * 2) Write all data into Excel in row
+           * 3) Merge cells
+           */
+
+          // parse all info from page of Major
+          getMajorInfo(majorItem.link, (data:MajorsInterface) => {
+            xls.writeMajor(majorItem, data, (index+1)+majorIndex);
+          });
+        });
+      }
+
+      // this is last
+      // xls.writeFacult(item, index + 1);
+      xls.saveFile('Zilinska univerzita v ziline.xlsx');
+    });
+    return;
+  });
 });

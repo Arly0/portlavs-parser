@@ -2,10 +2,10 @@ import { FaculteInterface } from "./FacultsInterface"
 
 export interface FacultMajorsInterface {
   title: string,
-  BC_SK: FaculteInterface|null,
-  ING_SK: FaculteInterface|null,
-  BC_EN: FaculteInterface|null,
-  ING_EN: FaculteInterface|null,
+  BC_SK: FaculteInterface[]|null,
+  ING_SK: FaculteInterface[]|null,
+  BC_EN: FaculteInterface[]|null,
+  ING_EN: FaculteInterface[]|null,
 }
 
 export interface MajorsInterface {
