@@ -65,6 +65,17 @@ export class Excel
     ];
 
     this._worksheet.addRows(rows);
+
+    // styles for header
+    const ABCD = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
+    const colSizes = [30, 30, 100, 15, 15, 15, 20, 15, 20, 30, 30, 100]
+    ABCD.forEach((letter: string, index: number) => {
+      this._worksheet.getCell(`${letter}1`).font = {
+        color: {argb: '00FF0000'},
+        size: 24,
+      };
+      this._worksheet.getColumn(letter).width = colSizes[index];
+    });
    }
 
 
@@ -87,6 +98,8 @@ export class Excel
    */
   writeFacult (facult:FaculteInterface, index:number)
   {
+    console.log(`Writing facult: ${facult.text}`);
+    
     this._worksheet.getCell(`A${index}`).value = {
       text: facult.text,
       hyperlink: facult.link,
@@ -106,6 +119,7 @@ export class Excel
    */
   writeMajor (majorName:FaculteInterface, major:MajorsInterface, index:number)
   {
+    console.log(`Writing major: ${major.title}`);
     // set title with link
     this._worksheet.getCell(`B${index}`).value = {
       text: major.title,

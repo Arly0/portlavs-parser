@@ -23,10 +23,11 @@ const tmp = 'https://www.portalvs.sk/sk/vysoka-skola/zilinska-univerzita-v-zilin
 
 console.info('Starting parser...');
 console.info('Get facults from university...');
+
 // init Logger
 const logger = new Logger(true);
 
-needle.get(tmp, function (err: any, res: any) {
+needle.get(tmp, async function (err: any, res: any) {
   if (err) {
     logger.writeLog(err);
   }
@@ -46,35 +47,74 @@ needle.get(tmp, function (err: any, res: any) {
   // init Excel instance
   const xls = new Excel(true, 'Zilinska univerzita v ziline');
 
-  let majorCounter = 0;
-  facults.forEach((item: FaculteInterface, index: number) => {
-    xls.writeFacult(item, index+2+majorCounter);
+  let rowCounter = 2;
+  for (const [index, item] of facults.entries()) {
+    xls.writeFacult(item, rowCounter);
     // parse all majors from Facults
-    getAllFacults(item, (FacultInfo: FacultMajorsInterface) => {
-      // index + secondIndex for merge cells
-      if (FacultInfo.BC_SK) {
-        majorCounter = FacultInfo?.BC_SK.length;
-        FacultInfo.BC_SK.forEach((majorItem: FaculteInterface, subIndex: number) => {
-          /**
-           * TODO: 
-           * 1) Get data from links
-           * 2) Write all data into Excel in row
-           * 3) Merge cells
-           */
+    const FacultInfo = await getAllFacults(item);
+    if (FacultInfo.BC_SK) {
+      for (const [subIndex, majorItem] of FacultInfo.BC_SK.entries()) {
+        /**
+         * TODO: 
+         * 1) Get data from links
+         * 2) Write all data into Excel in row
+         * 3) Merge cells
+         */
 
-          // parse all info from page of Major
-          getMajorInfo(majorItem.link, (data:MajorsInterface) => {
-            xls.writeMajor(majorItem, data, (index+2)+subIndex);
-          });
-        });
+        // parse all info from page of Major
+        const major = await getMajorInfo(majorItem.link);
+        xls.writeMajor(majorItem, major, rowCounter);
+        rowCounter++;
       }
+    }
 
-      setTimeout(() => {
-        xls.saveFile('Zilinska univerzita v ziline.xlsx');
-      }, 10000);
-      // this is last
-      // xls.writeFacult(item, index + 1);
-    });
-    return;
-  });
+    if (FacultInfo.ING_SK) {
+      for (const [subIndex, majorItem] of FacultInfo.ING_SK.entries()) {
+        /**
+         * TODO: 
+         * 1) Get data from links
+         * 2) Write all data into Excel in row
+         * 3) Merge cells
+         */
+
+        // parse all info from page of Major
+        const major = await getMajorInfo(majorItem.link);
+        xls.writeMajor(majorItem, major, rowCounter);
+        rowCounter++;
+      }
+    }
+
+    if (FacultInfo.BC_EN) {
+      for (const [subIndex, majorItem] of FacultInfo.BC_EN.entries()) {
+        /**
+         * TODO: 
+         * 1) Get data from links
+         * 2) Write all data into Excel in row
+         * 3) Merge cells
+         */
+
+        // parse all info from page of Major
+        const major = await getMajorInfo(majorItem.link);
+        xls.writeMajor(majorItem, major, rowCounter);
+        rowCounter++;
+      }
+    }
+
+    if (FacultInfo.ING_EN) {
+      for (const [subIndex, majorItem] of FacultInfo.ING_EN.entries()) {
+        /**
+         * TODO: 
+         * 1) Get data from links
+         * 2) Write all data into Excel in row
+         * 3) Merge cells
+         */
+
+        // parse all info from page of Major
+        const major = await getMajorInfo(majorItem.link);
+        xls.writeMajor(majorItem, major, rowCounter);
+        rowCounter++;
+      }
+    }
+  }
+  xls.saveFile('Zilinska univerzita v ziline.xlsx');
 });

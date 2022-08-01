@@ -8,13 +8,9 @@ import { Logger } from './Logger';
 // interfaces
 import { MajorsInterface, defaultMajor } from '../interface/MajorsInterface';
 
-export const getMajorInfo = (link: string, callback: (data:MajorsInterface) => void) => {
-  // @FIX: callback problem
-  needle.get(link, function (err:any, res:any) {
-    if (err) {
-      throw err;
-    }
-
+export const getMajorInfo = async (link: string) => {
+  return await needle('get', link)
+  .then((res:any) => {
     const majorInfo:MajorsInterface = defaultMajor;
 
     let $ = cheerio.load(res.body);
@@ -55,7 +51,12 @@ export const getMajorInfo = (link: string, callback: (data:MajorsInterface) => v
       }
     }
 
-    callback(majorInfo);
+    return majorInfo;
+  })
+  .catch((err:any) => {
+    if (err) {
+      throw err;
+    }
   });
 
   // save value to currect key
