@@ -129,18 +129,3 @@ console.info('Get facults from university...');
   console.log('Save file');
   xls.saveFile('PortalVS_parsing_data.xlsx');
 })();
-
-
-/**
- *  
-    "https://www.portalvs.sk/sk/vysoka-skola/katolicka-univerzita-v-ruzomberku",
-    "https://www.portalvs.sk/sk/vysoka-skola/slovenska-polnohospodarska-univerzita-v-nitre",
-    "https://www.portalvs.sk/sk/vysoka-skola/trnavska-univerzita-v-trnave",
-    "https://www.portalvs.sk/sk/vysoka-skola/univerzita-komenskeho-v-bratislave",
-    "https://www.portalvs.sk/sk/vysoka-skola/univerzita-konstantina-filozofa-v-nitre",
-    "https://www.portalvs.sk/sk/vysoka-skola/univerzita-mateja-bela-v-banskej-bystrici",
-    "https://www.portalvs.sk/sk/vysoka-skola/univerzita--pavla-jozefa-safarika-v-kosiciach",
-    "https://www.portalvs.sk/sk/vysoka-skola/univerzita-sv-cyrila-a-metoda-v-trnave",
-    "https://www.portalvs.sk/sk/vysoka-skola/univerzita-veterinarskeho-lekarstva-v-kosiciach",
-    "https://www.portalvs.sk/sk/vysoka-skola/slovenska-zdravotnicka-univerzita-v-bratislave"
- */
