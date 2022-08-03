@@ -10,14 +10,16 @@ export class Excel
   _workbook:any;
   _worksheet:any;
 
-  constructor(setDefaultHeader = true, firstPageName = 'First page')
+  constructor()
   {
     // instance
     this._workbook = new ExcelJS.Workbook();
-    this.createNewPage(firstPageName);
-    if (setDefaultHeader) {
-      this.setDefaultHeader();
-    }
+    // if (firstPageName !== 'none') {
+    //   this.createNewPage(firstPageName);
+    // }
+    // if (setDefaultHeader) {
+    //   this.setDefaultHeader();
+    // }
   }
 
   /**
@@ -44,9 +46,6 @@ export class Excel
     */
    setDefaultHeader ()
    {
-    if (!this._worksheet) {
-      this.createNewPage('First');
-    }
     const rows = [
       [
         'Факультети',
@@ -63,7 +62,7 @@ export class Excel
         'Інші поплатки',
       ]
     ];
-
+    
     this._worksheet.addRows(rows);
 
     // styles for header
@@ -85,9 +84,9 @@ export class Excel
    * @param name string - name of the new sheet
    * @returns WorkSheet
    */
-  createNewPage (name: string)
+  async createNewPage (name: string)
   {
-    this._worksheet = this._workbook.addWorksheet(name);
+    this._worksheet = await this._workbook.addWorksheet(name);
     return this._worksheet;
   }
 
